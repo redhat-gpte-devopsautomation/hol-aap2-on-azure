@@ -1,46 +1,24 @@
 
 == Introduction
 
-In this labs you will be implementing effective GitOps workflows with the Red Hat Ansible Automation Platform using the webhooks capabilities in Ansible Tower. 
+Red Hat Ansible Automation Platform on Microsoft Azure offers all the benefits of Ansible automation, deployed in your Azure cloud. Red Hat Ansible Automation Platform on Microsoft Azure is a managed application that you can deploy directly from your Azure Marketplace portal.
 
-With the release of Red Hat Ansible Tower v3.6, part of the Red Hat Ansible Automation Platform, we introduced Automation Webhooks to natively enable easier and more intuitive Git-centric workflows. Such workflows might be found with GitOps-oriented environments.
-
-GitOps is a prescriptive style of Infrastructure as Code based on the experience and wisdom of what works in deploying and managing large, sophisticated, distributed, and cloud-native systems. While you can implement Git-centric workflows, where you treat infrastructure like it is code, that doesn't mean it's GitOps.
-
-== Understanding Infrastructures-as-Code
-
-Infrastructure-as-Code (IaC) means managing and provisioning computing resources through human-readable and machine-consumable definition files, rather than using physical hardware configuration or interactive configuration tools.
-
-It is considered one of the essential practices of DevOps, along with continuous integration (CI), continuous delivery (CD), observability, and others. DevOps automates development and operations processes and creates a faster release cycle with higher quality.
-
-Ansible is a prime example of a tool that enables organizations to apply IaC techniques to their DevOps workflow.
-
-As an Ansible user, you define the desired state of your infrastructure — servers, cloud resources, networking — by using playbooks and roles that are expressed in YAML. 
-
-[cols="1a",grid=none,width=80%]
-|===
-^| image::images/01_iac.png[]
-^| Figure 1 - Infrastructures-as-Code
-|===
+This managed application is fully supported by Red Hat, providing all the tools you need to deploy enterprise-wide automation. It also integrates with native Azure services and the full Ansible collection for Microsoft Azure, co-developed and security tested by Microsoft and Red Hat. 
 
 
+== Overview
+
+In this hands on lab you will:
+* Deploy Ansible Ansible Platform on Microsoft Azure from the Azure Marketplace
+* Create an Azure Service Principal to authenticate against Azure resources
+* Learn how to leverage the Private Automation Hub
+* Deprovision the resources you create
 
 
-== Understanding an IaC Ansible pipeline
+== Prerequisites
 
-If you are treating your infrastructure as code, then you need a source control system. These days, when it comes to source control, we're talking about Git, the distributed source control system that has become the de facto standard in the space.
+. Red Hat Account
+     You will need a valid Red Hat SSO account in order to retrieve an Ansible entitlement once the application is deployed.  Please ensure that you are able to login to console.redhat.com successfully.  Mostly likely this is <yourhandle@redhat.com> 
 
-With Git for source control and Ansible to manage the state of your infrastructure, then all that is missing is the ability to automate what's in a repository and having Ansible apply the configurations to your infrastructure.
-
-
-== Introduction to Automation Webhooks
-
-Automation Webhooks were introduced to Ansible Tower v3.6 as part of the Ansible Automation Platform.
-
-Automation Webhooks allow you to link a Git repository and Ansible automation natively. Once a repo link is set up, Ansible catches events (Git commits) from the Git system (GitHub, GitHub Enterprise, GitLab). It then uses those events to trigger automation jobs to update projects, manage inventories, and perform deployments, all without requiring yet another tool such as Jenkins.
-
-[cols="1a",grid=none,width=80%]
-|===
-^| image::images/02_webhook.png[]
-^| Figure 2 - Automation Webhooks
-|===
+. Azure Environment Details
+     Once you have “Ordered” the environment, you will receive an email providing you with the necessary information for the Azure subscription that you have been assigned for this lab/demo, as well as any other Azure details.  You will use your @redhat.com email address to login to Microsoft Azure via SSO.

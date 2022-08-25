@@ -1,0 +1,145 @@
+:GUID: %guid%
+:OSP_DOMAIN: %dns_zone%
+:GITLAB_URL: %gitlab_url%
+:GITLAB_USERNAME: %gitlab_username%
+:GITLAB_PASSWORD: %gitlab_password%
+:GITLAB_HOST: %gitlab_hostname%
+:TOWER_URL: %tower_url%
+:TOWER_ADMIN_USER: %tower_admin_user%
+:TOWER_ADMIN_PASSWORD: %tower_admin_password%
+:SSH_COMMAND: %ssh_command%
+:SSH_PASSWORD: %ssh_password%
+:VSCODE_UI_URL: %vscode_ui_url%
+:VSCODE_UI_PASSWORD: %vscode_ui_password%
+:organization_name: Default
+:gitlab_project: ansible/gitops-lab
+:project_prod: Project gitOps - Prod
+:project_test: Project gitOps - Test
+:inventory_prod: GitOps inventory - Prod Env
+:inventory_test: GitOps inventory - Test Env
+:credential_machine: host_credential
+:credential_git: gitlab_credential
+:credential_git_token: gitlab_token 
+:credential_openstack: cloud_credential
+:jobtemplate_prod: App deployer - Prod Env
+:jobtemplate_test: App deployer - Test Env
+:source-linenums-option:        
+:markup-in-source: verbatim,attributes,quotes
+:show_solution: true
+
+== Exercise 1 - Install Ansible Automation Platform on Azure Marketplace
+
+In this section, you will deploy Ansible Automation Platform from the Azure Marketplace.
+
+. Login to https://demo.redhat.com and navigate to catalog and search for {catalog_name}. Select it, you will see a sidebar with a order button, select the order button.
+
+. After provisioning is complete you'll get an email with the login details. Login to the Azure portal using the details mentioned in the email.
+
+. Navigate to the Azure Marketplace.
+
+. Click on *Private Products* from the menu on the left of the screen.
+
+. Search for *Red Hat Ansible Automation Platform*.
+
+. Click on the card that is returned in the search.  Be sure that the solution selected is the official offering from Red Hat.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image37.png[]
+^| Figure 1 - Azure Marketplace Private Products
+|===
+
+. Once you click on the tile you can see from the dropdown the Private Offer.  
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image23.png[]
+^| Figure 2 - AAP Private products
+|===
+
+. Click on the *Create* button.  You will now need to provide additional details before we can initiate the deployment process.
+    * *Subscription*:  You will only have access to one subscription and it will be selected by default.
+    * *Resource Group*:  Select the *Create New* link and provide a name.  Use something like your *Initials-rg*
+    * *Region*:  Please leverage one of the TWO following indicated regions.  They have been set up with additional resource quotas to support this lab/demo environment.
+
+    ** East US
+    ** Germany West Central
+
+
+    * *Application Name*:  You can stick with the default or rename it.  Minimum 10 AlphaNumeric characters only
+    * *Administrator Password*: This is the AAP Controller / Private Automation Hub admin password.  Minimum 12 characters.
+    * *Access*:  Public access policy exposes Ansible Automation Platform UIs to incoming traffic from the Internet for faster deployment. Private access policy requires that you peer Azure virtual networks to access Ansible Automation Platform UIs.  For this lab / demo, please use PUBLIC.
+    * *Managed Resource Group*:  This is the resource group that Red Hat SREs will have access to in order to manage the lifecycle of the managed application.  You can safely keep this auto generated name unchanged
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image25.png[]
+^| Figure 3 - Create AAP on Azure
+|===
+
+. Click on *Review + Create*.
+
+. Then you must agree to the *Co-Admin Access Permissions* terms and conditions by checking the *I agree* box. Lastly, click on *Create*. 
+
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image33.png[]
+^| Figure 4 - Agree to t&c
+|===
+
+. The deployment can take from 60 minutes to 90 minutes.
+
+[NOTE]
+At times during deployment you may experience what Microsoft refers to as “Transient Errors''.  These transient errors cause the deployment of AAP to fail.  You MUST delete the AAP Managed Application resource from the resource group, and wait until the 2 other associated resource groups are also deleted.  Once everything has been deleted, then please attempt to deploy AAP on Azure again.  There’s a good chance you may have to deploy this 2 or 3 times to get it to succeed.  Please be patient.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image19.png[]
+^| Figure 5 - Wait for delete before redeploy
+|===
+
+
+. Once the deployment has completed successfully, please go to the newly created Resource Group.  There you will find the AAP on Azure managed application with the application name you provided.  Double click the application and select the Parameters and Outputs menu option on the left.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image20.png[]
+^| Figure 6 - AAP Access URLs
+|===
+
+. Copy the URL for Automation Controller and launch the user interfaces, and login as admin, using the administrator password you entered earlier during deployment.
+Upon logging in to the Automation Controller you will be prompted to set up the AAP subscription.  Select *Username/Password* and enter your Red Hat credentials (access.redhat.com), and select *Get Subscription*.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image41.png[]
+^| Figure 7 - Credentials to pull subscriptions
+|===
+
+. From the list of Subscriptions, choose a 60 day trial for Ansible Automation Platform.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image8.png[]
+^| Figure 8 - Select subscription
+|===
+
+
+
+. Next, and then click Submit.  (no need to connect to Red Hat Insights for this lab).
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image45.png[]
+^| Figure 9 - Submit
+|===
+
+
+. You are now ready to configure Ansible Automation Platform on Azure to be able to automate against your Azure environment.  To do this you have to create an Azure Service Principal.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image6.png[]
+^| Figure 10 - Ansible Controller WebUI
+|===
