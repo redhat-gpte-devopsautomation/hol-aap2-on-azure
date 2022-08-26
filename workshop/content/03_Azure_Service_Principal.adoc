@@ -260,7 +260,7 @@ region: "<Add your Azure region, ex: eastus>"
 
 *Task:* Verify that Ansible Automation Controller works as expected given your experience with Automation Controller in AAP (formerly Ansible Tower)
 
-*Success:* Criteria: Ability to run pre-configured or provided templates
+*Success Criteria:* Ability to run pre-configured or provided templates
 
 ==== Create a RHEL 8 Virtual Machine
 
