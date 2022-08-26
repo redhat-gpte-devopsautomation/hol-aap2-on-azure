@@ -1,0 +1,312 @@
+== Azure Service Principal (Create an Azure SP)
+
+In order to automate against Azure resources with the Ansible Automation Platform, you will need to provide authorization credentials to allow the automation.  The Microsoft Azure collection supports both username and password authentication and Service Principal authentication.  Here we will have you create a Service Principal and you will use those credentials shortly in the Ansible Automation Controller.
+
+*Task:* Create an Azure Service Principal for Ansible templates/jobs that operate against Azure resources
+
+*Success Criteria:* Successful creation of a Service Principal
+
+*Instructions:*
+
+. From the Azure portal launch the AZ Cloud Shell - command line.  This will open the command line frame. 
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image47.png[]
+^| Figure 7 - AZ Cloud Shell
+|===
+
+. When prompted select Create storage.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image46.png[]
+^| Figure 7 - Create storage
+|===
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image35.png[]
+^| Figure 7 - AZ Cloud Shell command line
+|===
+
+. Let’s grab the Subscription ID (Also available in the email you received from the RHPDS system).
++
+```
+az account list --output table --query '[].{Name:name, SubscriptionId:id}'
+```
+
+. This will return your Subscription Name and Subscription ID.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image12.png[]
+^| Figure 7 - Subscription Name and Subscription ID
+|===
+
+. Run the following command using the Azure CLI to create a Service Principal.  This will create a privileged Service Principal in Azure AD.  Be sure that this information is stored securely and safely. 
++
+Enter the following command, be sure to replace <myname-redhat> with your name, and <subscriptionID> with the Subscription Id value from the previous step.
++
+```
+az ad sp create-for-rbac --name <myname-redhat> --role Contributor --scope /subscriptions/<subscriptionID>
+```
+The output will be like the following. *Be sure to store these values securely; you will need them shortly*.
++
+```
+{
+  "appId": "xxxxxxx-xxx-xxxx",
+  "displayName": "hicham-redhat",
+  "name": "xxxxxxx-xxx-xxxx",
+  "password": "xxxxxxx-xxx-xxxx",
+  "tenant": "xxxxxxx-xxx-xxxx"
+}
+```
+
+=== Automation Controller Configuration
+
+. In order to automate against Azure resources we need to create a Credential in the Automation Controller.
+. In the Automation controller, select the *“Credentials”* listing under *“Resources”*.
+. Click the *“Add”* button at the top of the screen.
+. Name the credential and select *“Microsoft Azure Resource Manager”* as the credential type.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image48.png[]
+^| Figure 7 - Create new credentials
+|===
+
+. Fill out the values of the form with the following details:
+.. *Name:* Azure Infrastructure Resources
+.. *Description:* Azure Credentials - SP  
+.. *Subscription ID:* Enter this value.  You have this from the section before this (or the RHPDS system email)
+.. *Client ID:* Enter this value.  You have this from the section before this.  This is the value of *“appId”* from the output of the previous section.
+.. *Client Secret:* Enter this value.  You have this from the section before this.  This is the value of “*password” from the output of the previous section.
+.. *Tenant ID:* Enter this value.  You have this from the section before this.  This is the value of *“tenant”* from the output of the previous section.
+
+. Click *“Save”* to save the credential.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image31.png[]
+^| Figure 7 - Azure Infrastructure Resources
+|===
+
+=== Red Hat Registry Credentials
+
+. In the Automation controller, select the *“Credentials”* listing under *“Resources”*.
+. Click the *“Add”* button at the top of the screen.
+. Name the credential and select *“Container Registry”* as the credential type.
+. Fill out the values of the form with the following details:
+.. *Name:* Red Hat Registry
+.. *Authentication URL:* https://registry.redhat.io
+.. *Username:* <Your Red Hat Account>.  Eg: jsmith@redhat.com
+.. *Password:* <Your Red Hat Account Password>
+. Click *“Save”* at the bottom of the screen.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image44.png[]
+^| Figure 7 - Red Hat Registry Credentials
+|===
+
+=== Private Automation Hub Registry Credentials
+
+. In the Automation controller, select the *“Credentials”* listing under *“Resources”*.
+. Click the *“Add”* button at the top of the screen.
+. Name the credential and select *“Container Registry”* as the credential type.
+. Fill out the values of the form with the following details:
+.. *Name:* My Private Automation Hub
+.. *Authentication URL:* https://hub.<????????????>.az.ansiblecloud.com (grab this URL from the Parameter and Outputs section from the managed application in Azure).
+.. *Username:* admin
+.. *Password:* Use the administrator password you entered earlier during deployment
+. Click *“Save”*.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image21.png[]
+^| Figure 7 - Private Automation Hub Registry Credentials
+|===
+
+=== Execution Environment
+
+. The Ansible Automation platform on MS Azure includes an Execution Environment that has the Azure collection installed.  It’s name is:  ee-cloud-services.  Please leverage this *“Execution Environments”* in the automation activities you perform in this RHPDS environment.
+.. *Name:*  ee-cloud-services
+.. *Image:*  registry.redhat.io/ansible-automation-platform-21/ee-cloud-services-rhel8:latest
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image50.png[]
+^| Figure 7 - Execution Environments
+|===
+
+. Feel free to add any additional Execution Environments that you may have created and stored in a registry.
+
+=== Projects (Create a new project)
+
+. In the Automation Controller, navigate to the *“Projects”* section in the left menu.
+. Click *“Add”* at the top of the screen.
+. Choose *“Source Control Type”* as *“Git”*.
+. Fill out the values of the form with the following details:
+.. *Name:* Azure Demos
+.. *Default Execution Environment:* Click on the magnifying glass, and then select  ee-cloud-services (any Job Template associated with this project will automatically use this Execution Environment).
+.. *Source Control Credential Type:* Git
+.. *Source Control URL:* https://github.com/redhat-gpte-devopsautomation/azure-demos
+.. *Source Control Branch/Tag/Commit:* main (can also be left blank)
+. Click *“Save”* at the bottom of the screen.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image42.png[]
+^| Figure 7 - Create a new project
+|===
+
+Make sure it has synchronized and shows *“Successful”*.  If it doesn’t show successful you can click on the synchronize *icon* in the *Actions* column.
+
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image16.png[]
+^| Figure 7 - Azure Demos
+|===
+
+=== Template (Add templates from the previously created project)
+
+Let’s create a few Job Templates.  We will start with a RHEL 8 VM template, but before creating the RHEL template, you will need to create an SSH key pair using the RSA algorithm for use in environment variables.  This will allow you to SSH to the RHEL VM after successful deployment and configuration.  Run the *‘ssh-keygen’* command to create the key pair *on your local machine*.  You will need to copy the contents of the public certificate later in the process.  This assumes you are using Linux, MacOS, or WSL on Windows.
+
+```
+ssh-keygen -b 4096 -t rsa -f $HOME/.ssh/id_rsa_azure_demo -q -N "" -C "<your_email_address>"
+```
+Since this is a test key, you don’t need to add a password (just don’t use it for anything else beyond this test). 
+
+=== Create a “RHEL 8 VM” Job Template
+
+. In the Automation Controller, navigate to the *“Templates”* section in the left menu.
+. Click *“Add”* at the top of the screen.
+. Select *“Add Job Template”* from the dropdown menu.
+. Fill out the values of the form with the following details:
+.. *Name:* Create a RHEL 8 VM on Azure
+.. *Inventory:* Click on the magnifying glass, and then select Demo Inventory
+.. *Project:* Azure Demos
+.. *Execution Environment:* (keep blank, it will use the Projects default EE)
+.. *Playbook:* create_rhel_vm_demo.yml
+.. *Credentials:* For Category, select Microsoft Azure Resource Manager, and then select Azure Infrastructure Resources
+.. *Variables:* Use the values in the table below (with some modifications)
++
+```
+---
+resource_group_name: "<Add your Initials or Name>_ansible_test"
+region: "<Add your Azure region, ex: eastus>"
+vnet_cidr: "10.0.0.0/16"
+subnet_cidr: "10.0.1.0/24"
+vnet_name: "demo_vnet"
+subnet_name: "demo_subnet"
+network_sec_group_name: "demo_sec_group"
+rhel_admin_user: "azureuser"
+rhel_public_ip_name: "rhel_demo_ip"
+rhel_nic_name: "rhel_demo_nic"
+rhel_vm_name: "RHEL8-ansible"
+rhel_vm_size: "Standard_DS1_v2"
+rhel_vm_sku: "8.1"
+rhel_public_key: "<REPLACE WITH YOUR PUBLIC SSH KEY>"
+survey_public_ip: "True"
+```
++
+NOTE: To retrieve the contents of your public key, run this command from your terminal and then copy the output into the quotes. 
++
+```
+cat $HOME/.ssh/id_rsa_azure_demo.pub
+```
+
+. Click *“Save”* at the bottom of the screen.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image40.png[]
+^| Figure 7 - Create a RHEL 8 VM Job Template
+|===
+
+=== Create a “Destroy an Azure Resource Group” Job Template
+
+. In the Automation Controller, navigate to the *“Templates”* section in the left menu.
+. Click *“Add”* at the top of the screen.
+. Select *“Add a Job Template”* from the dropdown menu.
+. Fill out the values of the form with the following details:
+.. *Name:* Destroy an Azure Resource Group
+.. *Inventory:* Click on the magnifying glass, and then select  Demo Inventory
+.. *Project:* Azure Demos
+.. *Execution Environment:* (keep blank, it will use the Projects default EE)
+.. *Playbook:* destroy_resource_group.yml
+.. *Credentials:* For Category, select Microsoft Azure Resource Manager, and then select Azure Infrastructure Resources
+.. *Variables:* Use the values in the table below (with some modifications)
++
+```
+---
+resource_group_name: "<Add your Initials or Name>_ansible_test"
+region: "<Add your Azure region, ex: eastus>"
+```
+. Click *“Save”* at the bottom of the screen.
++
+[cols="1a",grid=none,width=80%]
+|===
+^| image::images/image51.png[]
+^| Figure 7 - Destroy an Azure Resource Group
+|===
+
+=== Content Testing
+
+==== Application Functionality
+
+==== At the Automation Controller UI
+
+*Task:* Verify that Ansible Automation Controller works as expected given your experience with Automation Controller in AAP (formerly Ansible Tower)
+
+*Success:* Criteria: Ability to run pre-configured or provided templates
+
+==== Create a RHEL 8 Virtual Machine
+
+. Navigate to *“Templates”* in the left menu.
+. Click the launch icon for the *“Create a RHEL 8 VM on Azure”* job template that you previously created
+. Watch the output of the automation as it occurs and take note of the IP address that is issued to the newly created virtual machine
++
+```
+PLAY [Create Azure VM] *********************************************************
+
+TASK [Create resource group] ***************************************************
+ok: [localhost]
+
+TASK [Create virtual network] **************************************************
+ok: [localhost]
+
+TASK [Add subnet] **************************************************************
+ok: [localhost]
+
+TASK [Create public IP address] ************************************************
+changed: [localhost]
+
+TASK [Dump public IP for VM which will be created] *****************************
+ok: [localhost] => {
+    "msg": "The public IP is 20.85.208.93"  <your public IP will be unique>
+}
+
+TASK [Create Network Security Group that allows SSH and RDP] *******************
+changed: [localhost]
+
+TASK [Create virtual network interface card] ***********************************
+skipping: [localhost]
+
+TASK [Create virtual network interface card] ***********************************
+changed: [localhost]
+
+TASK [Create VM] ***************************************************************
+changed: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=8    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+```
+. Once the automation completes, ssh into the new server using the previously outputted IP address and the SSH private key that you generated in previous steps (the ssh username will be *‘azureuser’*).  SSH to this RHEL 8 VM.
++
+```
+ssh azureuser@<Your-VMs-IP> -i ~/.ssh/id_rsa_azure_demo
+```
+Successful login to the server means that your Azure resources were provisioned successfully!  You can also view the created resources in the *"<Add your Initials or Name>_ansible_test"* resource group in the Azure portal.
