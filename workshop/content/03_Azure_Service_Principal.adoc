@@ -13,7 +13,7 @@ In order to automate against Azure resources with the Ansible Automation Platfor
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image47.png[]
-^| Figure 7 - AZ Cloud Shell
+^| AZ Cloud Shell
 |===
 
 . When prompted select Create storage.
@@ -21,13 +21,13 @@ In order to automate against Azure resources with the Ansible Automation Platfor
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image46.png[]
-^| Figure 7 - Create storage
+^| Create storage
 |===
 +
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image35.png[]
-^| Figure 7 - AZ Cloud Shell command line
+^| AZ Cloud Shell command line
 |===
 
 . Let’s grab the Subscription ID (Also available in the email you received from the RHPDS system).
@@ -41,7 +41,7 @@ az account list --output table --query '[].{Name:name, SubscriptionId:id}'
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image12.png[]
-^| Figure 7 - Subscription Name and Subscription ID
+^| Subscription Name and Subscription ID
 |===
 
 . Run the following command using the Azure CLI to create a Service Principal.  This will create a privileged Service Principal in Azure AD.  Be sure that this information is stored securely and safely. 
@@ -73,7 +73,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image48.png[]
-^| Figure 7 - Create new credentials
+^| Create new credentials
 |===
 
 . Fill out the values of the form with the following details:
@@ -89,7 +89,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image31.png[]
-^| Figure 7 - Azure Infrastructure Resources
+^| Azure Infrastructure Resources
 |===
 
 === Red Hat Registry Credentials
@@ -107,7 +107,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image44.png[]
-^| Figure 7 - Red Hat Registry Credentials
+^| Red Hat Registry Credentials
 |===
 
 === Private Automation Hub Registry Credentials
@@ -125,7 +125,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image21.png[]
-^| Figure 7 - Private Automation Hub Registry Credentials
+^| Private Automation Hub Registry Credentials
 |===
 
 === Execution Environment
@@ -137,7 +137,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image50.png[]
-^| Figure 7 - Execution Environments
+^| Execution Environments
 |===
 
 . Feel free to add any additional Execution Environments that you may have created and stored in a registry.
@@ -158,7 +158,7 @@ The output will be like the following. *Be sure to store these values securely; 
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image42.png[]
-^| Figure 7 - Create a new project
+^| Create a new project
 |===
 
 Make sure it has synchronized and shows *“Successful”*.  If it doesn’t show successful you can click on the synchronize *icon* in the *Actions* column.
@@ -166,7 +166,7 @@ Make sure it has synchronized and shows *“Successful”*.  If it doesn’t sho
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image16.png[]
-^| Figure 7 - Azure Demos
+^| Azure Demos
 |===
 
 === Template (Add templates from the previously created project)
@@ -222,7 +222,7 @@ cat $HOME/.ssh/id_rsa_azure_demo.pub
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image40.png[]
-^| Figure 7 - Create a RHEL 8 VM Job Template
+^| Create a RHEL 8 VM Job Template
 |===
 
 === Create a “Destroy an Azure Resource Group” Job Template
@@ -249,7 +249,7 @@ region: "<Add your Azure region, ex: eastus>"
 [cols="1a",grid=none,width=80%]
 |===
 ^| image::images/image51.png[]
-^| Figure 7 - Destroy an Azure Resource Group
+^| Destroy an Azure Resource Group
 |===
 
 === Content Testing
