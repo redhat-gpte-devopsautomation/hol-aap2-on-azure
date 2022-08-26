@@ -265,8 +265,8 @@ region: "<Add your Azure region, ex: eastus>"
 ==== Create a RHEL 8 Virtual Machine
 
 . Navigate to *“Templates”* in the left menu.
-. Click the launch icon for the *“Create a RHEL 8 VM on Azure”* job template that you previously created
-. Watch the output of the automation as it occurs and take note of the IP address that is issued to the newly created virtual machine
+. Click the launch icon for the *“Create a RHEL 8 VM on Azure”* job template that you previously created.
+. Watch the output of the automation as it occurs and take note of the IP address that is issued to the newly created virtual machine:
 +
 ```
 PLAY [Create Azure VM] *********************************************************
