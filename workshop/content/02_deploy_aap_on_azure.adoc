@@ -26,12 +26,13 @@
 :source-linenums-option:        
 :markup-in-source: verbatim,attributes,quotes
 :show_solution: true
+:catalog_name: Hands on with AAP2 on Azure
 
 == Exercise 1 - Install Ansible Automation Platform on Azure Marketplace
 
 In this section, you will deploy Ansible Automation Platform from the Azure Marketplace.
 
-. Login to https://demo.redhat.com and navigate to catalog and search for {catalog_name}. Select it, you will see a sidebar with a order button, select the order button.
+. Login to https://demo.redhat.com and navigate to catalog and search for *{catalog_name}*. Select it, you will see a sidebar with a order button, select the order button.
 
 . After provisioning is complete you'll get an email with the login details. Login to the Azure portal using the details mentioned in the email.
 
