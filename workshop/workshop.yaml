@@ -1,5 +1,5 @@
 ---
-name: GitOps with RedHat Ansible Tower
+name: Red Hat Ansible Automation Platform on Microsoft Azure
 modules:
   activate:
     - 01_introduction
