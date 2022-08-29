@@ -9,6 +9,7 @@ This managed application is fully supported by Red Hat, providing all the tools 
 == Overview
 
 In this hands on lab you will:
+
 * Deploy Ansible Ansible Platform on Microsoft Azure from the Azure Marketplace
 * Create an Azure Service Principal to authenticate against Azure resources
 * Learn how to leverage the Private Automation Hub
