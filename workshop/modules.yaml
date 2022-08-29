@@ -2,15 +2,18 @@
 modules:
   01_introduction:
     name: Red Hat Ansible Automation Platform on Microsoft Azure
-    exit_sign: lab 01
+    exit_sign: Deploy AAP on Azure
   02_deploy_aap_on_azure:
-    name: lab 01
-    exit_sign: lab 02
+    name: Deploy AAP on Azure
+    exit_sign: Azure Service Principal
   03_Azure_Service_Principal:
-    name: lab 02
-    exit_sign: lab 03
+    name: Azure Service Principal
+    exit_sign: Private Automation Hub
   04_Private_Automation_hub:
-    name: lab 03
-    exit_sign: lab 04
-  05_grade_and_solve:
-    name: Grade And Solve
+    name: Private Automation Hub
+    exit_sign: Deprovision AAP Managed Application
+  05_Deprovision_the_Ansible_Automation_Platform_Managed_Application:
+    name: Deprovision AAP Managed Application
+    exit_sign: grade and solve
+  06_grade_and_solve:
+    name: grade and solve

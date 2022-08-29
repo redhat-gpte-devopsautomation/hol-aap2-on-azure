@@ -6,3 +6,5 @@ modules:
     - 02_deploy_aap_on_azure 
     - 03_Azure_Service_Principal
     - 04_Private_Automation_hub
+    - 05_Deprovision_the_Ansible_Automation_Platform_Managed_Application
+    - 06_grade_and_solve
